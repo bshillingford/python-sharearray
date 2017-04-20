@@ -9,6 +9,16 @@ Since it's in RAM, there's no performance penalty.
 Any subsequent calls with the same ID will return an identical read-only memory mapped view,
 even across processes. The IDs are **global**.
 
+Installation:
+```
+pip install git+https://github.com/bshillingford/python-sharearray
+```
+or
+```
+git clone https://github.com/bshillingford/python-sharearray
+python setup.py install
+```
+
 ## Usage
 ### Using `decorator`:
 ```python
