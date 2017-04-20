@@ -17,10 +17,15 @@ import os
 import os.path
 import re
 import time
+import sys
 
 import numpy as np
 
 __all__ = ['cache', 'decorator', 'valid_id', 'TimeoutException']
+
+
+if sys.version_info[0] == 2:
+     FileExistsError = OSError
 
 
 class TimeoutException(Exception):
@@ -167,7 +172,7 @@ def cache(id, array_or_callback,
     fn, fn_lock = _build_path(id, prefix=prefix, shm_path=shm_path)
     fd_lock = -1
     try:
-        fd_lock = os.open(fn_lock, flags=os.O_CREAT | os.O_EXCL)
+        fd_lock = os.open(fn_lock, os.O_CREAT | os.O_EXCL)
         if fd_lock < 0:
             raise OSError("Lock open failure (bug?)", fn_lock, fd_lock)
 

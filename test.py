@@ -54,7 +54,6 @@ class TestCache(unittest.TestCase):
                                              shm_path='/dev/shm',
                                              prefix='sharearray_')
         self.assertTrue(not os.path.exists(fn) and not os.path.exists(fn_lock))
-        print("*****", fn, fn_lock)
 
         # create from scratch or open view
         arr = sharearray.cache(identifier,
