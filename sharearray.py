@@ -248,7 +248,7 @@ def decorator(id, **kwargs):
     def decorate(f):
         @functools.wraps(f)
         def wrapped():
-            return cache(id, f(), **kwargs)
+            return cache(id, f, **kwargs)
 
         return wrapped
 
