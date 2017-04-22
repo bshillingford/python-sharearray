@@ -196,25 +196,27 @@ def cache(id, array_or_callback,
                 raise TimeoutException(
                     "timed out waiting for %s to unlock (be created)" % id)
     else:
-        print_("'%s' doesn't exist yet. Locking and creating..." % id)
+        if not os.path.exists(fn):
+            print_("'%s' doesn't exist yet. Locking and creating..." % id)
 
-        if isinstance(array_or_callback, np.ndarray):
-            array = array_or_callback
-        else:
-            array = array_or_callback()
-            if not isinstance(array, np.ndarray):
-                raise ValueError(
-                    'callback did not return a numpy.ndarray, returned:',
-                    type(array))
+            if isinstance(array_or_callback, np.ndarray):
+                array = array_or_callback
+            else:
+                array = array_or_callback()
+                if not isinstance(array, np.ndarray):
+                    raise ValueError(
+                        'callback did not return a numpy.ndarray, returned:',
+                        type(array))
 
-        np.save(fn, array, allow_pickle=False)
+            np.save(fn, array, allow_pickle=False)
+            print_("'%s': written." % id)
 
     finally:
         if fd_lock > 0:
             os.close(fd_lock)
             os.unlink(fn_lock)
 
-    print_("'%s' has been created. Returning memmapped view." % id)
+    print_("'%s': returning memmapped view." % id)
     return _memmapped_view(fn)
 
 
